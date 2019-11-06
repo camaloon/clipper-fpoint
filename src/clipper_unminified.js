@@ -44,7 +44,7 @@ var ClipperLib = {};
 ClipperLib.version = '6.4.2.2';
 
 //UseLines: Enables open path clipping. Adds a very minor cost to performance.
-ClipperLib.use_lines = true;
+ClipperLib.use_lines = false;
 
 //ClipperLib.use_xyz: adds a Z member to FPoint. Adds a minor cost to performance.
 ClipperLib.use_xyz = false;
