@@ -43,9 +43,6 @@
 var ClipperLib = {};
 ClipperLib.version = '6.4.2.2';
 
-//UseLines: Enables open path clipping. Adds a very minor cost to performance.
-ClipperLib.use_lines = false;
-
 // Here starts the actual Clipper library:
 // Helper function to support Inheritance in Javascript
 var Inherit = function (ce, ce2) {
@@ -693,13 +690,8 @@ ClipperLib.ClipperBase.prototype.ProcessBound = function (E, LeftBoundIsForward)
 };
 
 ClipperLib.ClipperBase.prototype.AddPath = function (pg, polyType, Closed) {
-  if (ClipperLib.use_lines) {
-    if (!Closed && polyType === ClipperLib.PolyType.ptClip)
-      ClipperLib.Error("AddPath: Open paths must be subject.");
-  } else {
-    if (!Closed)
-      ClipperLib.Error("AddPath: Open paths have been disabled.");
-  }
+  if (!Closed)
+    ClipperLib.Error("AddPath: Open paths have been disabled.");
   var highI = pg.length - 1;
   if (Closed)
     while (highI > 0 && (ClipperLib.FPoint_op_Equality(pg[highI], pg[0])))
@@ -2136,44 +2128,6 @@ ClipperLib.Clipper.prototype.IntersectEdges = function (e1, e2, pt) {
   var e1Contributing = (e1.OutIdx >= 0);
   var e2Contributing = (e2.OutIdx >= 0);
 
-  if (ClipperLib.use_lines) {
-    //if either edge is on an OPEN path ...
-    if (e1.WindDelta === 0 || e2.WindDelta === 0) {
-      //ignore subject-subject open path intersections UNLESS they
-      //are both open paths, AND they are both 'contributing maximas' ...
-      if (e1.WindDelta === 0 && e2.WindDelta === 0) return;
-      //if intersecting a subj line with a subj poly ...
-      else if (e1.PolyTyp === e2.PolyTyp &&
-        e1.WindDelta !== e2.WindDelta && this.m_ClipType === ClipperLib.ClipType.ctUnion) {
-        if (e1.WindDelta === 0) {
-          if (e2Contributing) {
-            this.AddOutPt(e1, pt);
-            if (e1Contributing)
-              e1.OutIdx = -1;
-          }
-        } else {
-          if (e1Contributing) {
-            this.AddOutPt(e2, pt);
-            if (e2Contributing)
-              e2.OutIdx = -1;
-          }
-        }
-      } else if (e1.PolyTyp !== e2.PolyTyp) {
-        if ((e1.WindDelta === 0) && Math.abs(e2.WindCnt) === 1 &&
-          (this.m_ClipType !== ClipperLib.ClipType.ctUnion || e2.WindCnt2 === 0)) {
-          this.AddOutPt(e1, pt);
-          if (e1Contributing)
-            e1.OutIdx = -1;
-        } else if ((e2.WindDelta === 0) && (Math.abs(e1.WindCnt) === 1) &&
-          (this.m_ClipType !== ClipperLib.ClipType.ctUnion || e1.WindCnt2 === 0)) {
-          this.AddOutPt(e2, pt);
-          if (e2Contributing)
-            e2.OutIdx = -1;
-        }
-      }
-      return;
-    }
-  }
   //update winding counts...
   //assumes that e1 will be to the Right of e2 ABOVE the intersection
   if (e1.PolyTyp === e2.PolyTyp) {
@@ -2837,17 +2791,6 @@ ClipperLib.Clipper.prototype.DoMaxima = function (e) {
   } else if (e.OutIdx >= 0 && eMaxPair.OutIdx >= 0) {
     if (e.OutIdx >= 0) this.AddLocalMaxPoly(e, eMaxPair, e.Top);
     this.DeleteFromAEL(e);
-    this.DeleteFromAEL(eMaxPair);
-  } else if (ClipperLib.use_lines && e.WindDelta === 0) {
-    if (e.OutIdx >= 0) {
-      this.AddOutPt(e, e.Top);
-      e.OutIdx = ClipperLib.ClipperBase.Unassigned;
-    }
-    this.DeleteFromAEL(e);
-    if (eMaxPair.OutIdx >= 0) {
-      this.AddOutPt(eMaxPair, e.Top);
-      eMaxPair.OutIdx = ClipperLib.ClipperBase.Unassigned;
-    }
     this.DeleteFromAEL(eMaxPair);
   } else
     ClipperLib.Error("DoMaxima error");
