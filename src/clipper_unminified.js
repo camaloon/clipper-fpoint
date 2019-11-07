@@ -4490,17 +4490,6 @@ ClipperLib.JS.AddOuterPolyNodeToExPolygons = function (polynode, expolygons) {
   expolygons.push(ep);
 };
 
-ClipperLib.JS.ExPolygonsToPaths = function (expolygons) {
-  var a, i, alen, ilen;
-  var paths = new ClipperLib.Paths();
-  for (a = 0, alen = expolygons.length; a < alen; a++) {
-    paths.push(expolygons[a].outer);
-    for (i = 0, ilen = expolygons[a].holes.length; i < ilen; i++) {
-      paths.push(expolygons[a].holes[i]);
-    }
-  }
-  return paths;
-}
 ClipperLib.JS.PolyTreeToExPolygons = function (polytree) {
   var expolygons = new ClipperLib.ExPolygons();
   var node, i, childs, ilen;
