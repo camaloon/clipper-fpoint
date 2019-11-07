@@ -455,7 +455,7 @@ ClipperLib.ClipperBase.prototype.DisposeLocalMinimaList = function () {
     this.m_CurrentLM = null;
 };
 ClipperLib.ClipperBase.prototype.RangeTest = function (pt) {
-    if (pt[0] > ClipperLib.ClipperBase.maxValue || pt[0] < -ClipperLib.ClipperBase.maxValue || pt[1] > ClipperLib.ClipperBase.maxValue || pt[1] < -ClipperLib.ClipperBase.maxValue(pt[0] > 0 && pt[0] < ClipperLib.ClipperBase.minValue)(pt[1] > 0 && pt[1] < ClipperLib.ClipperBase.minValue)(pt[0] < 0 && pt[0] > -ClipperLib.ClipperBase.minValue)(pt[1] < 0 && pt[1] > -ClipperLib.ClipperBase.minValue)) 
+    if (pt[0] > ClipperLib.ClipperBase.maxValue || pt[0] < -ClipperLib.ClipperBase.maxValue || pt[1] > ClipperLib.ClipperBase.maxValue || pt[1] < -ClipperLib.ClipperBase.maxValue || pt[0] > 0 && pt[0] < ClipperLib.ClipperBase.minValue || pt[1] > 0 && pt[1] < ClipperLib.ClipperBase.minValue || pt[0] < 0 && pt[0] > -ClipperLib.ClipperBase.minValue || pt[1] < 0 && pt[1] > -ClipperLib.ClipperBase.minValue) 
         { ClipperLib.Error("Coordinate outside allowed range in RangeTest()."); }
 };
 ClipperLib.ClipperBase.prototype.InitEdge = function (e, eNext, ePrev, pt) {
