@@ -3711,8 +3711,8 @@ ClipperLib.JS.Clone = function (polygon) {
         result = new Array(plen);
         for (j = 0; j < plen; j++) {
             result[j] = {
-                X: polygon[i][j].x,
-                Y: polygon[i][j].y
+                x: polygon[i][j].x,
+                y: polygon[i][j].y
             };
         }
         results[i] = result;
@@ -3750,8 +3750,8 @@ ClipperLib.JS.Lighten = function (polygon, tolerance) {
             if (poly[plen - 1].x !== poly[0].x || poly[plen - 1].y !== poly[0].y) {
                 addlast = 1;
                 poly.push({
-                    X: poly[0].x,
-                    Y: poly[0].y
+                    x: poly[0].x,
+                    y: poly[0].y
                 });
                 plen = poly.length;
             } else 
@@ -3784,18 +3784,18 @@ ClipperLib.JS.Lighten = function (polygon, tolerance) {
                 }
             }
             poly2.push({
-                X: poly[0].x,
-                Y: poly[0].y
+                x: poly[0].x,
+                y: poly[0].y
             });
             for (j = 1; j < plen - 1; j++) 
                 { if (!rem[j]) 
                 { poly2.push({
-                X: poly[j].x,
-                Y: poly[j].y
+                x: poly[j].x,
+                y: poly[j].y
             }); } }
             poly2.push({
-                X: poly[plen - 1].x,
-                Y: poly[plen - 1].y
+                x: poly[plen - 1].x,
+                y: poly[plen - 1].y
             });
             if (addlast) 
                 { poly.pop(); }
